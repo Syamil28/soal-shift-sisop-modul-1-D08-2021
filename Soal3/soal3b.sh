@@ -6,3 +6,4 @@ mkdir "$presentfile"
 
 mv Koleksi_* "./$presentfile/"
 mv Foto.log "./$presentfile/"
+

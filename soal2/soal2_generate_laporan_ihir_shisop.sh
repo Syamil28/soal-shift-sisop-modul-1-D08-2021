@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#2A
 awk -F "\t" '
 BEGIN  {max=0} {
         if(NR>1) { 
@@ -12,7 +11,6 @@ BEGIN  {max=0} {
 END {printf("Transaksi terakhir dengan profit percentage terbesar yaitu %d dengan persentase %.2f%\n\n",row,max)}
 ' Laporan-TokoShiSop.tsv >> hasil.txt
 
-#2B
 awk -F "\t" '
 BEGIN {printf "Daftar nama customer di Albuquerque pada tahun 2017 antara lain:\n"} 
 $2~/2017/ && $10~/Albuquerque/ {nama[$7]++}
@@ -24,7 +22,6 @@ printf("\n")
 }
 ' Laporan-TokoShiSop.tsv >> hasil.txt
 
-#2C
 awk -F "\t" '
 BEGIN {nho=0; ncu=0; nco=0; min=1000000} 
 $8~/Home Office/{nho++} $8~/Consumer/{ncu++} $8~/Corporate/{nco++} 
@@ -45,7 +42,6 @@ printf("Tipe segmen customer yang penjualannya paling sedikit adalah %s dengan %
 }
 ' Laporan-TokoShiSop.tsv >> hasil.txt
 
-#2D
 awk -F "\t" '
 BEGIN {C=0; E=0; S=0; W=0; max=0}
 $13~/Central/{C+=$21} $13~/East/{E+=$21} $13~/South/{S+=$21} $13~/West/{W+=$21} 

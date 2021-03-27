@@ -1,2 +1,0 @@
-0 7 * * 1-5 bash /home/kali/Documents/Shift/soal3d.sh
-0 18 * * 1-5 unzip -P 'date+%m%d%Y' "Koleksi.zip"

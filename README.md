@@ -17,14 +17,14 @@ Ryujin baru saja diterima sebagai IT support di perusahaan Bukapedia. Dia diberi
 
 ```
 
-Awalnya, path dari syslog.log disimpan ke sebuah variable bernama [FILE_LOG].
+Awalnya, path dari syslog.log disimpan ke sebuah variable bernama `FILE_LOG`.
 
 ```
    regex='.+: (INFO|ERROR) (.+) \((.+)\)'
    
 ```
 
-Regex yang dipakai juga disimpan ke variable bernama [regex]. Regex ini akan berperan dan melakukan 3 hal, yaitu tipe log, pesan, dan usernamenya.
+Regex yang dipakai juga disimpan ke variable bernama `regex`. Regex ini akan berperan dan melakukan 3 hal, yaitu tipe log, pesan, dan usernamenya.
 
 ```
    declare -A ERROR 
@@ -43,6 +43,9 @@ setelah itu deklarasikan associative array, yang dimana 3 array ini bertugas unt
 
 ```
 
-yang dilakukan pada[while] diatas yaitu program akan membaca [$file] baris per baris yang kemudian akan disimpan ke variable [$line]
+yang dilakukan pada looping `while` diatas yaitu program akan membaca `$file` baris per baris yang kemudian akan disimpan ke variable `$line`
+
+```
+   
 
 

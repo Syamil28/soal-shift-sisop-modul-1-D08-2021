@@ -83,3 +83,126 @@ Sama seperti sebelumna, kode program diatas akan membuat atau menimpa file `user
 ```
 
 potongan kode diatas juga mirip seperti sebelumnya tetapi di kode ini akan melakukan loop untuk setiap key di 2 array, yaitu pada `USER_ERROR` dan `USER_INFO`, dan menuliskan nilai dari `$key`, `${userInfo[$key]}`, `${userErrors[$key]}`. Hal ini dilakukan agar bila ada username yang hanya mempunyai log bertipe _INFO_ atau _ERROR_ saja tetap akan tertulis. Kemudian hasil dari loop akan di-sort dan ditambahkan ke file `user_statistic.csv`. Karena username bisa saja mempunyai log _INFO_ dan _ERROR_ sehingga menghasilkan baris yang sama, maka perlu menambah option `-u` di sort untuk menghapus baris yang duplikat.
+
+## **Soal 2**
+Steven dan Manis mendirikan sebuah startup bernama “TokoShiSop”. Sedangkan kamu dan Clemong adalah karyawan pertama dari TokoShiSop. Setelah tiga tahun bekerja, Clemong diangkat menjadi manajer penjualan TokoShiSop, sedangkan kamu menjadi kepala gudang yang mengatur keluar masuknya barang.
+
+Tiap tahunnya, TokoShiSop mengadakan Rapat Kerja yang membahas bagaimana hasil penjualan dan strategi kedepannya yang akan diterapkan. Kamu sudah sangat menyiapkan sangat matang untuk raker tahun ini. Tetapi tiba-tiba, Steven, Manis, dan Clemong meminta kamu untuk mencari beberapa kesimpulan dari data penjualan “Laporan-TokoShiSop.tsv”.
+
+a. Steven ingin mengapresiasi kinerja karyawannya selama ini dengan mengetahui Row ID dan profit percentage terbesar (jika hasil profit percentage terbesar lebih dari 1, maka 	  ambil Row ID yang paling besar). Karena kamu bingung, Clemong memberikan definisi dari profit percentage, yaitu:
+	```Profit Percentage = (Profit/Cost Price) 100```
+   Cost Price didapatkan dari pengurangan Sales dengan Profit. (Quantity diabaikan).
+b. Clemong memiliki rencana promosi di Albuquerque menggunakan metode MLM. Oleh karena itu, Clemong membutuhkan daftar nama customer pada transaksi tahun 2017 di Albuquerque.
+c. TokoShiSop berfokus tiga segment customer, antara lain: Home Office, Customer, dan Corporate. Clemong ingin meningkatkan penjualan pada segmen customer yang paling            sedikit. Oleh karena itu, Clemong membutuhkan segment customer dan jumlah transaksinya yang paling sedikit.
+d. TokoShiSop membagi wilayah bagian (region) penjualan menjadi empat bagian, antara lain: Central, East, South, dan West. Manis ingin mencari wilayah bagian (region) yang 
+   memiliki total keuntungan (profit) paling sedikit dan total keuntungan wilayah tersebut.
+Agar mudah dibaca oleh Manis, Clemong, dan Steven, (e) kamu diharapkan bisa membuat sebuah script yang akan menghasilkan file “hasil.txt” yang memiliki format sebagai berikut:
+
+Transaksi terakhir dengan profit percentage terbesar yaitu *ID Transaksi* dengan persentase *Profit Percentage*%.
+
+Daftar nama customer di Albuquerque pada tahun 2017 antara lain:
+*Nama Customer1*
+*Nama Customer2* dst
+
+Tipe segmen customer yang penjualannya paling sedikit adalah *Tipe Segment* dengan *Total Transaksi* transaksi.
+
+Wilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah *Nama Region* dengan total keuntungan *Total Keuntungan (Profit)*
+
+
+### **Penyelesaian**
+- 2.a
+```shell
+awk -F "\t" '
+BEGIN  {max=0}
+```
+Dideklarasikan variabel ```max``` dengan value 0, yang digunakan untuk menyimpan Presentase Profit terbesar.
+```shell
+        if(NR>1) { 
+                pp=$21/(($18-$21))*100 
+                if(pp>=max){
+                        max=pp; row=$1}
+                }
+        } 
+```
+Karena pada row 1 di dataset merupakan bagian header maka digunakan ```if(NR>1)``` untuk mengabaikan row pertama. Setelahnya pada setiap row diambil data pada kolom ke-18 dan ke-21 untuk perhitungan *Profit Percentage* yang disimpan pada variabel ```pp``` dengan operasi ```$21/(($18-$21))*100```. Jika hasil dari ```pp``` lebih besar dari ```max``` maka value ```max``` diganti dengan value ```pp``` pada row itu, dan value ```row``` diisi dengan ```$1``` yang merupakan Row ID.
+```shell
+END {printf("Transaksi terakhir dengan profit percentage terbesar yaitu %d dengan persentase %.2f%\n\n">
+' Laporan-TokoShiSop.tsv >> hasil.txt
+```
+Diakhiri dengan printf sesuai dengan format, dimasukkan dalam file ```hasil.txt```
+
+-2.b
+```shell
+awk -F "\t" '
+BEGIN {printf "Daftar nama customer di Albuquerque pada tahun 2017 antara lain:\n"} 
+$2~/2017/ && $10~/Albuquerque/ {nama[$7]++}
+```
+Pertama mencetak output sesuai format. Lalu melooping data, jika data pada kolom ke-2 adalah tahun 2017, dan data kolom ke-3 adalah **Albuquerque** maka diambil data pada kolom ke-7 dalam list ```nama```. 
+```shell
+END {
+        for(i in nama){
+                printf("%s\n",i)
+        }
+printf("\n")
+}
+' Laporan-TokoShiSop.tsv >> hasil.txt
+```
+Setelah selesai mengambil data, nama-nama yang tersimpan diprint dengan looping. Output dimasukkan ke file ```hasil.txt```.
+
+-2.c
+```shell
+awk -F "\t" '
+BEGIN {nho=0; ncu=0; nco=0; min=1000000} 
+$8~/Home Office/{nho++} $8~/Consumer/{ncu++} $8~/Corporate/{nco++} 
+```
+Pertama dideklarasikan variabel ```nho``` untuk menyimpan jumlah segmen *Home Office*, ```ncu``` untuk menyimpan jumlah segmen *Consumer*, dan ```nco``` untuk menyimpan jumlah segmen *Corporate*, semua dengan nilai ```0```, dan variabel ```min``` untuk menyimpan value terkecil. Lalu looping untuk mengambil data pada kolom ke-8, setiap kata kunci yang didapat akan menambah value variabelnya masing-masing.
+```shell
+END {
+        if(nho<min){
+                min=nho;
+                seg="Home Office";
+        }
+        else if(ncu<min){
+                min=ncu;
+                seg="Consumer";
+        }
+        else if(nco<min){
+                min=nco;
+                seg="Corporate";
+        }
+printf("Tipe segmen customer yang penjualannya paling sedikit adalah %s dengan %d transaksi.\n\n",seg,m)
+}
+' Laporan-TokoShiSop.tsv >> hasil.txt
+```
+Pada ```END``` diperiksa satu persatu value dari segmen, jika lebih kecil dari ```min``` maka akan diganti oleh segmen tersebut. Setelah itu diprint segmen yang terkecil beserta jumlahnya sesuai dengan format yang ditentukan. Output dimasukkan dalam file ```hasil.txt```.
+
+-2.d
+```shell
+awk -F "\t" '
+BEGIN {C=0; E=0; S=0; W=0; max=1000000}
+$13~/Central/{C+=$21} $13~/East/{E+=$21} $13~/South/{S+=$21} $13~/West/{W+=$21}
+```
+Pertama dideklarasikan variabel ```C``` untuk menyimpan jumlah profit pada bagian *Central*, ```E``` untuk menyimpan jumlah profit pada bagian *East*, ```S``` untuk menyimpan jumlah profit pada bagian *South*, ```W``` untuk menyimpan jumlah profit pada bagian *West*, dan ```max``` untuk menyimpan profit terkecil.
+```shell
+END {
+        if(C<max){
+                max=C;
+                Reg="Central";
+        }
+        else if(E<max){
+                max=E;
+                Reg="East";
+        }
+        else if(S<max){
+                max=S;
+                Reg="South";
+        }
+        else if(W<max){
+                max=W;
+                Reg="West";
+        }
+printf("Wilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah %s dengan total keuntungan %.2f.\n",Reg,max)
+}
+' Laporan-TokoShiSop.tsv >> hasil.txt
+```
+Lalu dilihat satu-satu value variabel, jika lebih kecil dari ```max``` maka value ```max``` diganti dengan value variabel tadi. Terakhir diprint Region dengan profitnya sesuai format yang ditentukan, dimasukkan ke ```hasil.txt```.

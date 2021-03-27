@@ -209,3 +209,106 @@ printf("Wilayah bagian (region) yang memiliki total keuntungan (profit) yang pal
 ' Laporan-TokoShiSop.tsv >> hasil.txt
 ```
 Lalu dilihat satu-satu value variabel, jika lebih kecil dari ```max``` maka value ```max``` diganti dengan value variabel tadi. Terakhir diprint Region dengan profitnya sesuai format yang ditentukan, dimasukkan ke ```hasil.txt```.
+
+
+
+## **Soal 3**
+
+
+### **3a**
+Membuat script untuk mengunduh 23 gambar dari "https://loremflickr.com/320/240/kitten" serta menyimpan log-nya ke file "Foto.log". Karena gambar yang diunduh acak, ada kemungkinan gambar yang sama terunduh lebih dari sekali, oleh karena itu kalian harus menghapus gambar yang sama (tidak perlu mengunduh gambar lagi untuk menggantinya). Kemudian menyimpan gambar-gambar tersebut dengan nama "Koleksi_XX" dengan nomor yang berurutan tanpa ada nomor yang hilang (contoh : Koleksi_01, Koleksi_02, ...)
+
+### **Penyelesaian No 3a**
+
+```   
+
+filenames () {
+if [ $1 -le 9 ]
+then
+        filename="Koleksi_0$1.jpg"
+fi
+}
+
+for ((i=1; i<=23; i++))
+do
+        wget -a Foto.log https://loremflickr.com/320/240/kitten -O "Koleksi_$i.jpg"
+        for ((j=1; j<i; j++))
+        do
+		    check=$(cmp Koleksi_$i.jpg Koleksi_$j.jpg)
+		    dif=$?
+		    if [ $dif -eq 0 ]	      	
+            then
+                rm Koleksi_$i.jpg
+			    i=$(($i-1))
+                break
+            fi
+        done
+done
+
+for ((i=1; i<10; i=i+1))
+do
+	filenames "$i"
+	if [ -f Koleksi_$i.jpg ]
+	then
+		mv Koleksi_$i.jpg $filename
+	fi
+done
+   
+```
+
+Fungsi filenames() merupakan fungsi untuk mengubah nama Koleksi_1 s.d Koleksi_9 menjadi Koleksi_01 s.d Koleksi_09.
+
+```   
+
+filenames () {
+if [ $1 -le 9 ]
+then
+        filename="Koleksi_0$1.jpg"
+fi
+}
+
+```      
+
+Perulangan dibawah ini merupakan perulangan untuk mengunduh 23 gambar kucing dari https://loremflickr.com/320/240/kitten dan mengubah namanya menjadi Koleksi_1 s.d Koleksi_23.
+
+```   
+
+for ((i=1; i<=23; i++))
+do
+        wget -a Foto.log https://loremflickr.com/320/240/kitten -O "Koleksi_$i.jpg"
+
+   
+```
+
+Perulangan dibawah merupakan perulangan untuk membandingkan hasil unduhan. 
+
+```   
+
+
+for ((j=1; j<i; j++))
+do
+	check=$(cmp Koleksi_$i.jpg Koleksi_$j.jpg)
+	dif=$?
+	if [ $dif -eq 0 ]	      	
+ 	then
+		rm Koleksi_$i.jpg
+		i=$(($i-1))
+                break
+	fi
+done
+
+```
+
+Perulangan dibawah ini merupakan perulangan untuk mengubah nama Koleksi_1 s.d Koleksi_9 menjadi Koleksi_01 s.d Koleksi_09 dengan memanggil fungsi filenames.
+
+```
+for ((i=1; i<10; i=i+1))
+do
+	filenames "$i"
+	if [ -f Koleksi_$i.jpg ]
+	then
+		mv Koleksi_$i.jpg $filename
+	fi
+done
+   
+```

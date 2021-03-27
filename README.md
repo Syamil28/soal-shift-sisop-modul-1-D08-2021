@@ -312,3 +312,27 @@ do
 done
    
 ```
+
+### **3b**
+Karena Kuuhaku malas untuk menjalankan script tersebut secara manual, ia juga meminta kalian untuk menjalankan script tersebut sehari sekali pada jam 8 malam untuk tanggal-tanggal tertentu setiap bulan, yaitu dari tanggal 1 tujuh hari sekali (1,8,...), serta dari tanggal 2 empat hari sekali(2,6,...). Supaya lebih rapi, gambar yang telah diunduh beserta log-nya, dipindahkan ke folder dengan nama tanggal unduhnya dengan format "DD-MM-YYYY" (contoh : "13-03-2023").
+
+### **Penyelesaian No 3b**
+
+```   
+bash "/home/kali/Documents/Shift/soal3a.sh"
+presentfile=$(date +"%d-%m-%Y")
+mkdir "$presentfile"
+
+mv Koleksi_* "./$presentfile/"
+mv Foto.log "./$presentfile/"
+
+```
+
+Menjalankan script dari soal3a.sh dan kemudian membuat folder bernama tanggal unduhnya kemudian memindahkan seluruh file memiliki nama "Koleksi_" dan Foto.log diawalnya kedalam folder tersebut    
+
+```   
+0 20 1-31/7,2-31/4 * * bash "/home/kali/Documents/Shift/soal3b.sh"
+
+```
+
+Mengacu pada crontab diatas maka script akan dijalankan pada menti ke 0, script dijalankan ketika menit ke 0, pada jam 20 ( 8 malam ), mulai dari tanggal 1 hingga tanggal 31 setiap 7 hari dan mulai dari tanggal 2 hinggal tanggal 31 setiap 4 hari.

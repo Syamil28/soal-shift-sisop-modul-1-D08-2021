@@ -336,3 +336,128 @@ Menjalankan script dari soal3a.sh dan kemudian membuat folder bernama tanggal un
 ```
 
 Mengacu pada crontab diatas maka script akan dijalankan pada menti ke 0, script dijalankan ketika menit ke 0, pada jam 20 ( 8 malam ), mulai dari tanggal 1 hingga tanggal 31 setiap 7 hari dan mulai dari tanggal 2 hinggal tanggal 31 setiap 4 hari.
+
+### **3c**
+Agar kuuhaku tidak bosan dengan gambar anak kucing, ia juga memintamu untuk mengunduh gambar kelinci dari "https://loremflickr.com/320/240/bunny". Kuuhaku memintamu mengunduh gambar kucing dan kelinci secara bergantian (yang pertama bebas. contoh : tanggal 30 kucing > tanggal 31 kelinci > tanggal 1 kucing > ... ). Untuk membedakan folder yang berisi gambar kucing dan gambar kelinci, nama folder diberi awalan "Kucing_" atau "Kelinci_" (contoh : "Kucing_13-03-2023").
+
+### **Penyelesaian No 3c**
+
+```   
+Kucing(){
+    filenames () {
+    if [ $1 -le 9 ]
+    then
+            filename="Koleksi_0$1.jpg"
+    fi
+    }
+
+    for ((i=1; i<=23; i++))
+    do
+            wget -a Foto.log https://loremflickr.com/320/240/kitten -O "Koleksi_$i.jpg"
+            for ((j=1; j<i; j++))
+            do
+		    check=$(cmp Koleksi_$i.jpg Koleksi_$j.jpg)
+		    dif=$?
+	    	    if [ $dif -eq 0 ]	      	
+                then
+                rm Koleksi_$i.jpg
+			    i=$(($i-1))
+                  break
+                fi
+           done
+    done
+
+    for ((i=1; i<10; i=i+1))
+    do
+	filenames "$i"
+    	if [ -f Koleksi_$i.jpg ]
+    	then
+		mv Koleksi_$i.jpg $filename
+    	fi
+    done
+
+    file=$(date +"%d-%m-%Y")
+    mkdir "Kucing_$file"
+
+    mv Koleksi_* "./Kucing_$file/"
+    mv Foto.log "./Kucing_$file/"
+}
+
+Kelinci(){
+    filenames () {
+    if [ $1 -le 9 ]
+    then
+            filename="Koleksi_0$1.jpg"
+    fi
+    }
+
+    for ((i=1; i<=23; i++))
+    do
+            wget -a Foto.log https://loremflickr.com/320/240/bunny -O "Koleksi_$i.jpg"
+            for ((j=1; j<i; j++))
+            do
+		    check=$(cmp Koleksi_$i.jpg Koleksi_$j.jpg)
+		    dif=$?
+	    	    if [ $dif -eq 0 ]	      	
+                then
+                rm Koleksi_$i.jpg
+			    i=$(($i-1))
+                  break
+                fi
+           done
+    done
+
+    for ((i=1; i<10; i=i+1))
+    do
+	filenames "$i"
+    	if [ -f Koleksi_$i.jpg ]
+    	then
+		mv Koleksi_$i.jpg $filename
+    	fi
+    done
+
+    file=$(date +"%d-%m-%Y")
+    mkdir "Kelinci_$file"
+
+    mv Koleksi_* "./Kelinci_$file/"
+    mv Foto.log "./Kelinci_$file/"
+}
+
+
+Kucing
+Kelinci
+
+
+
+```
+
+Script didapat dengan memodifikasi soal3a.sh dengan membagi nya menjadi dua fungsi yakni fungsi Kucing() dan fungsi Kelinci(). Serta menambahkan url untuk mengunduh gambar kelinci pada fungsi kelinci. disetiap fungsi terdapat fungsi untuk memindahkan Koleksi ke folder sesuai dengan kategorinya.
+
+Namun script ini belum bisa mengunduh sesuai apa yang dimanta soal yakni mengunduh foto kucing hari ini dan mengunduh foto kelinci di keesokan hari dan seterusnya.
+
+### **3d**
+Untuk mengamankan koleksi Foto dari Steven, Kuuhaku memintamu untuk membuat script yang akan memindahkan seluruh folder ke zip yang diberi nama “Koleksi.zip” dan mengunci zip tersebut dengan password berupa tanggal saat ini dengan format "MMDDYYYY" (contoh : “03032003”).
+
+### **Penyelesaian No 3d**
+
+``` 
+zip -P 'date+%m%d%Y' -r Koleksi.zip ./*
+
+```
+Begitu script dijalankan maka setiap file akan dipindahkan kedalam zip yang bernama Koleksi.zip dan akan diproteksi dengan password berupa tanggal file itu di-zip "MMDDYYYY" 
+
+
+### **3e**
+e.	Karena kuuhaku hanya bertemu Steven pada saat kuliah saja, yaitu setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore, ia memintamu untuk membuat koleksinya ter-zip saat kuliah saja, selain dari waktu yang disebutkan, ia ingin koleksinya ter-unzip dan tidak ada file zip sama sekali.
+
+### **Penyelesaian No 3e**
+
+``` 
+
+0 7 * * 1-5 bash /home/kali/Documents/Shift/soal3d.sh
+0 18 * * 1-5 unzip -P 'date+%m%d%Y' "Koleksi.zip"
+
+```
+Pada baris pertama cron untuk menjalankan script soal3d.sh agar setiap file akan dipindahkan kedalam zip yang bernama Koleksi.zip dan akan diproteksi dengan password berupa tanggal file itu di-zip "MMDDYYYY" Zip akan terbuka dengan menjalankan script soal 3d dan dijalankan pada menit 0, pada jam 7 pagi, pada hari pertama hingga hari kelima (senin - jumat).
+Cron kedua akan melakukan unzip pada file zip Koleksi.zip pada menit 0, jam 18 (6 malam), pada hari pertama hingga hari kelima (senin-jumat).
+

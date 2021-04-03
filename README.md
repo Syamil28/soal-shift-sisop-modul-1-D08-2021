@@ -529,7 +529,39 @@ Script ini belum bisa mengunduh sesuai apa yang diminta soal yakni mengunduh fot
 ![image](https://user-images.githubusercontent.com/25588630/113492828-b8563f80-9504-11eb-814c-0f44cbfe2017.png)
 
 ### **Revisi No 3c**
-Kendala tersebut bisa diatasi dengan menambahkan syarat seperti diatas 
+```
+current_day=$(date +%e)
+current_month=$(date +"%m")
+mod=$(($current_day%2))
+modi=$(($current_month%2))
+
+
+if [[ $modi == 1 ]] 
+then
+    if [[ $mod == 1 ]] 
+    then
+        Kucing
+    else [[ $mod == 0 ]] 
+        Kelinci
+    fi
+fi
+
+if [[ $modi == 0 ]]
+then
+    if [[ $mod == 1 ]] 
+        then
+    Kelinci
+        else [[ $mod == 0 ]] 
+    Kucing
+    fi
+fi
+```
+Kendala tersebut bisa diatasi dengan menambahkan syarat seperti diatas agar script bisa mengunduh gambar kucing dan kelinci secara bergantian tiap harinya. tiap bulan ganjil script akan mengunduh file kucing di tanggal 1 dan di bulan genap akan mengunduh file kelinci di tanggal 1 hal tersebut bertujuan agar tidak ada file ganda di akhir bulannya.
+
+### **Output Revisi 3c**
+![image](https://user-images.githubusercontent.com/25588630/113493898-cceb0580-950d-11eb-8824-acba412a7799.png)
+
+![image](https://user-images.githubusercontent.com/25588630/113493905-e1c79900-950d-11eb-8614-8de21caf3977.png)
 
 ### **3d**
 Untuk mengamankan koleksi Foto dari Steven, Kuuhaku memintamu untuk membuat script yang akan memindahkan seluruh folder ke zip yang diberi nama “Koleksi.zip” dan mengunci zip tersebut dengan password berupa tanggal saat ini dengan format "MMDDYYYY" (contoh : “03032003”).
@@ -542,16 +574,35 @@ zip -P 'date+%m%d%Y' -r Koleksi.zip ./*
 ```
 Begitu script dijalankan maka setiap file akan dipindahkan kedalam zip yang bernama Koleksi.zip dan akan diproteksi dengan password berupa tanggal file itu di-zip "MMDDYYYY" 
 
+### **Output No 3d*
+![image](https://user-images.githubusercontent.com/25588630/113493995-9661ba80-950e-11eb-8e5a-91cf6a863a9d.png)
+
+
+### **Kendala No 3d**
+File tidak bisa di-extract secara manual karena password tidak sesuai dengan apa yang diminta soal.
+
+### **Revisi No 3d**
+```
+#!/bin/bash
+password=$(date +"%m%d%Y") 
+zip -P $password -r Koleksi.zip ./*
+
+```
+Perbaikan yang dilakukan adalah memperbaiki sintaksis pada script seperti yang ditunjukan diatas.
+
+### **Output Revisi No 3d**
+![image](https://user-images.githubusercontent.com/25588630/113493977-703c1a80-950e-11eb-9517-9cc36d9952ae.png)
+
 
 ### **3e**
-e.	Karena kuuhaku hanya bertemu Steven pada saat kuliah saja, yaitu setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore, ia memintamu untuk membuat koleksinya ter-zip saat kuliah saja, selain dari waktu yang disebutkan, ia ingin koleksinya ter-unzip dan tidak ada file zip sama sekali.
+Karena kuuhaku hanya bertemu Steven pada saat kuliah saja, yaitu setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore, ia memintamu untuk membuat koleksinya ter-zip saat kuliah saja, selain dari waktu yang disebutkan, ia ingin koleksinya ter-unzip dan tidak ada file zip sama sekali.
 
 ### **Penyelesaian No 3e**
 
 ``` 
 
 0 7 * * 1-5 bash /home/kali/Documents/Shift/soal3d.sh
-0 18 * * 1-5 unzip -P 'date+%m%d%Y' "Koleksi.zip"
+0 18 * * 1-5 unzip -P $(date +"%d%m%Y") "Koleksi.zip"
 
 ```
 Pada baris pertama cron untuk menjalankan script soal3d.sh agar setiap file akan dipindahkan kedalam zip yang bernama Koleksi.zip dan akan diproteksi dengan password berupa tanggal file itu di-zip "MMDDYYYY" Zip akan terbuka dengan menjalankan script soal 3d dan dijalankan pada menit 0, pada jam 7 pagi, pada hari pertama hingga hari kelima (senin - jumat).

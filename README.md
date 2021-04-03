@@ -331,8 +331,71 @@ done
    
 ```
 
+
+### **Problem No 3a**
+Terjadi pengulangan pada proses pengunduhan. ketika ada file yang sama file tersebut akan terhapus dan kembali mendownload ulang file dikarenakan loop masih for i = 1 to 23
+![image](https://user-images.githubusercontent.com/25588630/113492536-336a2680-9502-11eb-90b5-cb834e905d0e.png)
+
+### **Revisi No 3a**
+```
+#!/bin/bash
+
+n=23
+filenames () {
+if [ $1 -le 9 ]
+then
+        filename="Koleksi_0$1.jpg"
+fi
+}
+
+for ((i=1; i<=n; i++))
+do
+        wget -a Foto.log https://loremflickr.com/320/240/kitten -O "Koleksi_$i.jpg"
+        for ((j=1; j<i; j++))
+        do
+		check=$(cmp Koleksi_$i.jpg Koleksi_$j.jpg)
+		dif=$?
+		if [ $dif -eq 0 ]	      	
+                then
+                        rm Koleksi_$i.jpg
+		        (( i-- ))
+                        (( n-- ))
+                        break
+                fi
+        done
+done
+
+for ((i=1; i<10; i=i+1))
+do
+	filenames "$i"
+	if [ -f Koleksi_$i.jpg ]
+	then
+		mv Koleksi_$i.jpg $filename
+	fi
+done
+```
+Perbaikan pertama adalah dengan membuat variabel baru untuk menyimpan jumlah banyaknya loop yang harus dilakukan. Hal tersebut juga memudahkan proses pengurangan banyaknya loop yang harus dilakukan jika ada file yang sama.
+
+```
+check=$(cmp Koleksi_$i.jpg Koleksi_$j.jpg)
+dif=$?
+if [ $dif -eq 0 ]	      	
+then
+	rm Koleksi_$i.jpg
+	(( i-- ))
+ 	(( n-- ))
+ 	break
+fi
+```
+Lalu perbaikan berikutnya adalah dengan menambahkan operasi ```(( i-- ))``` dan ````(( n-- ))``` agar ketika ada file yang sama dilakukan pengurangan banyaknya loop yang harus dilakukan
+
+### **Output Revisi 3a**
+![image](https://user-images.githubusercontent.com/25588630/113492712-af18a300-9503-11eb-8dba-3a65ba2898bd.png)
+
+
 ### **3b**
 Karena Kuuhaku malas untuk menjalankan script tersebut secara manual, ia juga meminta kalian untuk menjalankan script tersebut sehari sekali pada jam 8 malam untuk tanggal-tanggal tertentu setiap bulan, yaitu dari tanggal 1 tujuh hari sekali (1,8,...), serta dari tanggal 2 empat hari sekali(2,6,...). Supaya lebih rapi, gambar yang telah diunduh beserta log-nya, dipindahkan ke folder dengan nama tanggal unduhnya dengan format "DD-MM-YYYY" (contoh : "13-03-2023").
+
 
 ### **Penyelesaian No 3b**
 
@@ -354,6 +417,12 @@ Menjalankan script dari soal3a.sh dan kemudian membuat folder bernama tanggal un
 ```
 
 Mengacu pada crontab diatas maka script akan dijalankan pada menti ke 0, script dijalankan ketika menit ke 0, pada jam 20 ( 8 malam ), mulai dari tanggal 1 hingga tanggal 31 setiap 7 hari dan mulai dari tanggal 2 hinggal tanggal 31 setiap 4 hari.
+
+### **Output 3b**
+![image](https://user-images.githubusercontent.com/25588630/113492724-cc4d7180-9503-11eb-9fed-eece9e56e549.png)
+
+![image](https://user-images.githubusercontent.com/25588630/113492731-d2dbe900-9503-11eb-9194-23d8fc47a5e9.png)
+
 
 ### **3c**
 Agar kuuhaku tidak bosan dengan gambar anak kucing, ia juga memintamu untuk mengunduh gambar kelinci dari "https://loremflickr.com/320/240/bunny". Kuuhaku memintamu mengunduh gambar kucing dan kelinci secara bergantian (yang pertama bebas. contoh : tanggal 30 kucing > tanggal 31 kelinci > tanggal 1 kucing > ... ). Untuk membedakan folder yang berisi gambar kucing dan gambar kelinci, nama folder diberi awalan "Kucing_" atau "Kelinci_" (contoh : "Kucing_13-03-2023").
@@ -452,6 +521,8 @@ Kelinci
 Script didapat dengan memodifikasi soal3a.sh dengan membagi nya menjadi dua fungsi yakni fungsi Kucing() dan fungsi Kelinci(). Serta menambahkan url untuk mengunduh gambar kelinci pada fungsi kelinci. disetiap fungsi terdapat fungsi untuk memindahkan Koleksi ke folder sesuai dengan kategorinya.
 
 Namun script ini belum bisa mengunduh sesuai apa yang dimanta soal yakni mengunduh foto kucing hari ini dan mengunduh foto kelinci di keesokan hari dan seterusnya.
+
+
 
 ### **3d**
 Untuk mengamankan koleksi Foto dari Steven, Kuuhaku memintamu untuk membuat script yang akan memindahkan seluruh folder ke zip yang diberi nama “Koleksi.zip” dan mengunci zip tersebut dengan password berupa tanggal saat ini dengan format "MMDDYYYY" (contoh : “03032003”).

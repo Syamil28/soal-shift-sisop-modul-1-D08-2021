@@ -332,9 +332,10 @@ done
 ```
 
 
-### **Problem No 3a**
+### **Kendala No 3a**
 Terjadi pengulangan pada proses pengunduhan. ketika ada file yang sama file tersebut akan terhapus dan kembali mendownload ulang file dikarenakan loop masih for i = 1 to 23
-![image](https://user-images.githubusercontent.com/25588630/113492536-336a2680-9502-11eb-90b5-cb834e905d0e.png)
+![image](https://user-images.githubusercontent.com/25588630/113492875-1c790380-9505-11eb-9c54-0db1a7f8efbe.png)
+
 
 ### **Revisi No 3a**
 ```
@@ -390,7 +391,7 @@ fi
 Lalu perbaikan berikutnya adalah dengan menambahkan operasi ```(( i-- ))``` dan ````(( n-- ))``` agar ketika ada file yang sama dilakukan pengurangan banyaknya loop yang harus dilakukan
 
 ### **Output Revisi 3a**
-![image](https://user-images.githubusercontent.com/25588630/113492712-af18a300-9503-11eb-8dba-3a65ba2898bd.png)
+![image](https://user-images.githubusercontent.com/25588630/113492849-ec316500-9504-11eb-8e77-569eb573e183.png)
 
 
 ### **3b**
@@ -419,9 +420,10 @@ Menjalankan script dari soal3a.sh dan kemudian membuat folder bernama tanggal un
 Mengacu pada crontab diatas maka script akan dijalankan pada menti ke 0, script dijalankan ketika menit ke 0, pada jam 20 ( 8 malam ), mulai dari tanggal 1 hingga tanggal 31 setiap 7 hari dan mulai dari tanggal 2 hinggal tanggal 31 setiap 4 hari.
 
 ### **Output 3b**
-![image](https://user-images.githubusercontent.com/25588630/113492724-cc4d7180-9503-11eb-9fed-eece9e56e549.png)
+![image](https://user-images.githubusercontent.com/25588630/113492856-fbb0ae00-9504-11eb-85d1-3f98e598b340.png)
 
-![image](https://user-images.githubusercontent.com/25588630/113492731-d2dbe900-9503-11eb-9194-23d8fc47a5e9.png)
+![image](https://user-images.githubusercontent.com/25588630/113492849-ec316500-9504-11eb-8e77-569eb573e183.png)
+
 
 
 ### **3c**
@@ -520,9 +522,14 @@ Kelinci
 
 Script didapat dengan memodifikasi soal3a.sh dengan membagi nya menjadi dua fungsi yakni fungsi Kucing() dan fungsi Kelinci(). Serta menambahkan url untuk mengunduh gambar kelinci pada fungsi kelinci. disetiap fungsi terdapat fungsi untuk memindahkan Koleksi ke folder sesuai dengan kategorinya.
 
-Namun script ini belum bisa mengunduh sesuai apa yang dimanta soal yakni mengunduh foto kucing hari ini dan mengunduh foto kelinci di keesokan hari dan seterusnya.
+Namun script ini belum bisa mengunduh sesuai apa yang diminta soal yakni mengunduh foto kucing hari ini dan mengunduh foto kelinci di keesokan hari dan seterusnya.
 
+### **Kendala No 3c**
+Script ini belum bisa mengunduh sesuai apa yang diminta soal yakni mengunduh foto kucing hari ini dan mengunduh foto kelinci di keesokan hari dan seterusnya.
+![image](https://user-images.githubusercontent.com/25588630/113492828-b8563f80-9504-11eb-814c-0f44cbfe2017.png)
 
+### **Revisi No 3c**
+Kendala tersebut bisa diatasi dengan menambahkan syarat seperti diatas 
 
 ### **3d**
 Untuk mengamankan koleksi Foto dari Steven, Kuuhaku memintamu untuk membuat script yang akan memindahkan seluruh folder ke zip yang diberi nama “Koleksi.zip” dan mengunci zip tersebut dengan password berupa tanggal saat ini dengan format "MMDDYYYY" (contoh : “03032003”).

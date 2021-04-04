@@ -85,7 +85,7 @@ Sama seperti sebelumna, kode program diatas akan membuat atau menimpa file `user
 potongan kode diatas juga mirip seperti sebelumnya tetapi di kode ini akan melakukan loop untuk setiap key di 2 array, yaitu pada `USER_ERROR` dan `USER_INFO`, dan menuliskan nilai dari `$key`, `${userInfo[$key]}`, `${userErrors[$key]}`. Hal ini dilakukan agar bila ada username yang hanya mempunyai log bertipe _INFO_ atau _ERROR_ saja tetap akan tertulis. Kemudian hasil dari loop akan di-sort dan ditambahkan ke file `user_statistic.csv`. Karena username bisa saja mempunyai log _INFO_ dan _ERROR_ sehingga menghasilkan baris yang sama, maka perlu menambah option `-u` di sort untuk menghapus baris yang duplikat.
 
 **Revisi Soal1**
-![image](/home/syamil/Pictures/'Screenshot from 2021-04-04 19-43-45.png')
+![image](/home/syamil/Pictures/Screenshot from 2021-04-04 19-43-45.png)
 
 ## **Soal 2**
 Steven dan Manis mendirikan sebuah startup bernama “TokoShiSop”. Sedangkan kamu dan Clemong adalah karyawan pertama dari TokoShiSop. Setelah tiga tahun bekerja, Clemong diangkat menjadi manajer penjualan TokoShiSop, sedangkan kamu menjadi kepala gudang yang mengatur keluar masuknya barang.

@@ -86,7 +86,7 @@ potongan kode diatas juga mirip seperti sebelumnya tetapi di kode ini akan melak
 
 ### **Revisi Soal1**
 
-![image](/home/syamil/Pictures/"Screenshot from 2021-04-04 19-43-45.png")
+![image](./Screenshot from 2021-04-04 19-43-45.png)
 
 ## **Soal 2**
 Steven dan Manis mendirikan sebuah startup bernama “TokoShiSop”. Sedangkan kamu dan Clemong adalah karyawan pertama dari TokoShiSop. Setelah tiga tahun bekerja, Clemong diangkat menjadi manajer penjualan TokoShiSop, sedangkan kamu menjadi kepala gudang yang mengatur keluar masuknya barang.

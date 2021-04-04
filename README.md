@@ -86,9 +86,7 @@ potongan kode diatas juga mirip seperti sebelumnya tetapi di kode ini akan melak
 
 ### **Revisi Soal1**
 
-x-special/nautilus-clipboard
-copy
-file:///home/syamil/Pictures/Screenshot%20from%202021-04-04%2019-43-45.png
+![image](file:///home/syamil/Pictures/Screenshot%20from%202021-04-04%2019-43-45.png)
 
 
 ## **Soal 2**

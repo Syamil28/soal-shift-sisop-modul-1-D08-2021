@@ -86,8 +86,11 @@ potongan kode diatas juga mirip seperti sebelumnya tetapi di kode ini akan melak
 
 ### **Revisi Soal1**
 
+output yang ditampilkan pada terminal ketika program dieksekusi dapat dilihat pada gambar dibawah ini:
 ![gambar](https://user-images.githubusercontent.com/62102884/113509959-382aeb00-9593-11eb-926f-b36a7e9a560e.png)
-file:///home/syamil/Pictures/Screenshot%20from%202021-04-04%2019-43-45.png)
+
+dapat dilihat ketika _bash soal1.sh_ dijalankan, output yang keluar berupa data yang ada pada file _error_info.csv_ dan _user_statistic.csv_ langsung keluar pada terminal.
+
 
 
 ## **Soal 2**
